@@ -1,0 +1,34 @@
+----------------------------------------CRIAÇÃO DA IMAGEM E CONTAINER-------------------------------------------
+
+$ docker run -d --name kafka apache/kafka:latest
+
+----------------------------------CRIAÇÃO DA IMAGEM E CONTAINER (Docker Compose)--------------------------------
+
+$ docker compose up -d
+
+------------------------------------EXECUTAR O TERMINAL DO KAFKA NO DOCKER--------------------------------------
+
+$ docker exec -it kafka bash
+
+---------------------------------------------------TÓPICOS------------------------------------------------------
+// Após executar o "docker exec -it kafka bash"
+
+// Criar tópico
+$ kafka-topics --create --topic meu-topico --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+// Listar tópicos
+$ kafka-topics --list --bootstrap-server localhost:9092
+
+// Visualizar tópico
+$ kafka-topics --describe --topic meu-topico --bootstrap-server localhost:9092
+
+// Remover tópico
+$ kafka-topics --delete --topic  meu-topico --bootstrap-server localhost:9092
+
+-------------------------------------------CRIAÇÃO DAS MENSAGENS------------------------------------------------
+
+$ kafka-console-producer --topic meu-topico --bootstrap-server localhost:9092
+
+-------------------------------------------LEITURA DAS MENSAGENS------------------------------------------------
+
+$ kafka-console-consumer --topic meu-topico --from-beginning --bootstrap-server localhost:9092
