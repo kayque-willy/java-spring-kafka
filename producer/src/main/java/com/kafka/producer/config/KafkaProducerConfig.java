@@ -3,17 +3,19 @@ package com.kafka.producer.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import com.kafka.producer.dto.Mensagem;
+import com.kafka.producer.dto.MensagemDTO;
 
 @Configuration
 public class KafkaProducerConfig {
@@ -22,7 +24,7 @@ public class KafkaProducerConfig {
         private String bootstrapAddress;
 
         @Bean
-        public ProducerFactory<String, Mensagem> orderProducerFactory() {
+        public ProducerFactory<String, MensagemDTO> orderProducerFactory() {
                 Map<String, Object> props = new HashMap<>();
                 props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
                 props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
@@ -32,7 +34,17 @@ public class KafkaProducerConfig {
         }
 
         @Bean
-        public KafkaTemplate<String, Mensagem> orderKafkaTemplate() {
+        public KafkaTemplate<String, MensagemDTO> orderKafkaTemplate() {
                 return new KafkaTemplate<>(orderProducerFactory());
         }
+
+        @Bean
+        public NewTopic pagamentoRequestTopicBuilder() {
+                return TopicBuilder
+                        .name("nome-topico-kafka")
+                        .partitions(1)
+                        .replicas(1)
+                        .build();
+        }
+
 }

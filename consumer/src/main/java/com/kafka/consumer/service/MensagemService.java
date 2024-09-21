@@ -4,12 +4,12 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
 
-import com.kafka.consumer.dto.Mensagem;
+import com.kafka.consumer.dto.MensagemDTO;
 
 @Service
 public class MensagemService {
 
-    final String particao = "1";
+    final String particao = "0";
 
     // @KafkaListener(
     //     topics = "nome-topico-kafka", 
@@ -20,7 +20,7 @@ public class MensagemService {
             partitions = { particao }
         ), 
         containerFactory = "orderKafkaListenerContainerFactory")
-    public void mensagemListener(Mensagem mensagem) {
-        System.out.println("Consumer Partição: " + particao + " - Mensagem Recebida: " + mensagem.nome());
+    public void mensagemListener(MensagemDTO mensagem) {
+        System.out.println("Consumer Partição: " + particao + " - Mensagem Recebida: " + mensagem.getNome());
     }
 }
